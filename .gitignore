@@ -31,6 +31,7 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
 
 # typescript
@@ -39,3 +40,16 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+ANDROID_BUILD_GUIDE.md
+EAS_BUILD_TROUBLESHOOTING.md
+EAS_SECRETS_GUIDE.md
+
+EAS_BUILD_GUIDE.md
+SETUP_INSTRUCTIONS.md
+TROUBLESHOOTING.md
+BUILD_AND_DEPLOYMENT_GUIDE.md
+API_RESPONSE_FIX.md
+APP_PUBLISHING_CHECKLIST.md
+AUTH_SETUP.md
+CODE_STRUCTURE_GUIDE.md
