@@ -7,8 +7,8 @@ export default {
     version: "1.0.0",
     orientation: "portrait",
     scheme: "projectmanager",
+    platforms: ["ios", "android"],
     plugins: [
-      "expo-web-browser",
       "expo-font"
     ],
     icon: "./assets/expo_icon.png",
