@@ -12,6 +12,7 @@ export default {
       "expo-font",
       "./plugins/withCustomAndroidIcons.js"
     ],
+    icon: "./assets/512x512_icon.png",
     userInterfaceStyle: "light",
     newArchEnabled: true,
     ios: {
@@ -22,7 +23,15 @@ export default {
     android: {
       package: "com.waivergroup.waiveronthego",
       versionCode: 1,
-      edgeToEdgeEnabled: true
+      adaptiveIcon: {
+        foregroundImage: "./assets/icon_logo_foreground.png",
+        backgroundColor: "#5a5e5a",
+        monochromeImage: "./assets/AppIcons/icon_logo_foreground_monochrome.png"
+      },
+      icon: "./assets/512x512_icon.png",
+      permissions: [],
+      edgeToEdgeEnabled: true,
+      playStoreUrl: "https://play.google.com/store/apps/details?id=com.waivergroup.waiveronthego"
     },
     // Extra configuration for environment variables
     extra: {
