@@ -16,24 +16,28 @@
     "preview": {
       "distribution": "internal",
       "env": {
-        "EXPO_NO_CACHE": "1"
+        "EXPO_NO_CACHE": "1",
+        "EXPO_IMAGE_UTILS_NO_CACHE": "1"
+      },
+      "android": {
+        "buildType": "apk",
+        "prebuildCommand": "mkdir -p .expo/web || true"
       },
       "ios": {
         "simulator": false
-      },
-      "android": {
-        "buildType": "apk"
       }
     },
     "production": {
       "env": {
-        "EXPO_NO_CACHE": "1"
+        "EXPO_NO_CACHE": "1",
+        "EXPO_IMAGE_UTILS_NO_CACHE": "1"
+      },
+      "android": {
+        "buildType": "app-bundle",
+        "prebuildCommand": "mkdir -p .expo/web || true"
       },
       "ios": {
         "simulator": false
-      },
-      "android": {
-        "buildType": "app-bundle"
       }
     }
   },

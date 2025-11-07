@@ -27,6 +27,7 @@ export default {
     android: {
       package: "com.waivergroup.waiveronthego",
       versionCode: 1,
+      icon: "./assets/512x512_icon.png",
       edgeToEdgeEnabled: true
     },
     // Extra configuration for environment variables
