@@ -11,7 +11,7 @@ export default {
     plugins: [
       "expo-font"
     ],
-    icon: "./assets/expo_icon.png",
+    icon: "./assets/512x512_icon.png",
     userInterfaceStyle: "light",
     newArchEnabled: true,
     splash: {
@@ -27,11 +27,6 @@ export default {
     android: {
       package: "com.waivergroup.waiveronthego",
       versionCode: 1,
-      adaptiveIcon: {
-        foregroundImage: "./assets/icon_logo_foreground.png",
-        backgroundColor: "#5a5e5a",
-        monochromeImage: "./assets/AppIcons/icon_logo_foreground_monochrome.png"
-      },
       edgeToEdgeEnabled: true
     },
     // Extra configuration for environment variables
