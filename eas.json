@@ -6,12 +6,18 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "env": {
+        "EXPO_NO_CACHE": "1"
+      },
       "ios": {
         "simulator": true
       }
     },
     "preview": {
       "distribution": "internal",
+      "env": {
+        "EXPO_NO_CACHE": "1"
+      },
       "ios": {
         "simulator": false
       },
@@ -20,6 +26,9 @@
       }
     },
     "production": {
+      "env": {
+        "EXPO_NO_CACHE": "1"
+      },
       "ios": {
         "simulator": false
       },

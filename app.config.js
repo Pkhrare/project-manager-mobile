@@ -8,7 +8,8 @@ export default {
     orientation: "portrait",
     scheme: "projectmanager",
     plugins: [
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-font"
     ],
     icon: "./assets/expo_icon.png",
     userInterfaceStyle: "light",
@@ -27,14 +28,11 @@ export default {
       package: "com.waivergroup.waiveronthego",
       versionCode: 1,
       adaptiveIcon: {
-        foregroundImage: "./assets/icon_logo_foreground.png",
+        foregroundImage: "./assets/512x512_icon.png",
         backgroundColor: "#5a5e5a",
-        monochromeImage: "./assets/AppIcons/icon_logo_foreground_monochrome.png"
+        monochromeImage: "./assets/512x512_icon.png"
       },
       edgeToEdgeEnabled: true
-    },
-    web: {
-      favicon: "./assets/favicon.png"
     },
     // Extra configuration for environment variables
     extra: {
