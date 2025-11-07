@@ -23,11 +23,6 @@ export default {
     android: {
       package: "com.waivergroup.waiveronthego",
       versionCode: 1,
-      adaptiveIcon: {
-        foregroundImage: "./assets/icon_logo_foreground.png",
-        backgroundColor: "#5a5e5a",
-        monochromeImage: "./assets/AppIcons/icon_logo_foreground_monochrome.png"
-      },
       icon: "./assets/512x512_icon.png",
       permissions: [],
       edgeToEdgeEnabled: true,
