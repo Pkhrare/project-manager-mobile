@@ -14,11 +14,6 @@ export default {
     ],
     userInterfaceStyle: "light",
     newArchEnabled: true,
-    splash: {
-      image: "./assets/tab_heading.v5.png",
-      resizeMode: "contain",
-      backgroundColor: "#ffffff"
-    },
     ios: {
       bundleIdentifier: "com.waivergroup.waiveronthego",
       buildNumber: "1",
