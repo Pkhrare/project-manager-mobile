@@ -21,7 +21,7 @@
       },
       "android": {
         "buildType": "apk",
-        "prebuildCommand": "mkdir -p .expo/web || true"
+        "image": "latest"
       },
       "ios": {
         "simulator": false
@@ -34,7 +34,7 @@
       },
       "android": {
         "buildType": "app-bundle",
-        "prebuildCommand": "mkdir -p .expo/web || true"
+        "image": "latest"
       },
       "ios": {
         "simulator": false
