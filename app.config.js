@@ -28,9 +28,9 @@ export default {
       package: "com.waivergroup.waiveronthego",
       versionCode: 1,
       adaptiveIcon: {
-        foregroundImage: "./assets/512x512_icon.png",
+        foregroundImage: "./assets/icon_logo_foreground.png",
         backgroundColor: "#5a5e5a",
-        monochromeImage: "./assets/512x512_icon.png"
+        monochromeImage: "./assets/AppIcons/icon_logo_foreground_monochrome.png"
       },
       edgeToEdgeEnabled: true
     },
