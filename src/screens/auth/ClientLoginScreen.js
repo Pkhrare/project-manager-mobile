@@ -9,7 +9,8 @@ import {
   Platform,
   ScrollView,
   Alert,
-  Image
+  Image,
+  Linking
 } from 'react-native';
 import { useAuth } from '../../utils/AuthContext';
 import ApiCaller from '../../api/apiCaller';
@@ -55,6 +56,42 @@ const ClientLoginScreen = ({ navigation, onClientLogin }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleContactSupport = () => {
+    const email = 'prakhar.khare@waivergroup.com';
+    const subject = 'Support Request - Waiver On-the-go';
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+    
+    Linking.canOpenURL(mailtoUrl)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(mailtoUrl);
+        } else {
+          Alert.alert('Error', 'Unable to open email client. Please contact: ' + email);
+        }
+      })
+      .catch((err) => {
+        console.error('Error opening email:', err);
+        Alert.alert('Error', 'Unable to open email client. Please contact: ' + email);
+      });
+  };
+
+  const handleGetStarted = () => {
+    const url = 'https://waiverprojects.web.app/combined-license-form';
+    
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(url);
+        } else {
+          Alert.alert('Error', 'Unable to open browser. Please visit: ' + url);
+        }
+      })
+      .catch((err) => {
+        console.error('Error opening URL:', err);
+        Alert.alert('Error', 'Unable to open browser. Please visit: ' + url);
+      });
   };
 
   return (
@@ -109,6 +146,22 @@ const ClientLoginScreen = ({ navigation, onClientLogin }) => {
               {loading ? 'Logging in...' : 'Login as Client'}
             </Text>
           </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={styles.contactSupportButton}
+            onPress={handleContactSupport}
+          >
+            <Text style={styles.contactSupportText}>Contact Support</Text>
+          </TouchableOpacity>
+          
+          <View style={styles.getStartedContainer}>
+            <Text style={styles.getStartedText}>
+              Don't have a project with Waiver Consulting Group?{' '}
+            </Text>
+            <TouchableOpacity onPress={handleGetStarted}>
+              <Text style={styles.getStartedLink}>Get Started here.</Text>
+            </TouchableOpacity>
+          </View>
           
           <TouchableOpacity
             style={styles.backButton}
@@ -196,8 +249,37 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  backButton: {
+  contactSupportButton: {
     marginTop: 16,
+    padding: 12,
+    alignItems: 'center',
+  },
+  contactSupportText: {
+    color: '#1976D2',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+  },
+  getStartedContainer: {
+    marginTop: 16,
+    padding: 12,
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  getStartedText: {
+    color: '#757575',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  getStartedLink: {
+    color: '#1976D2',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+    fontWeight: '600',
+  },
+  backButton: {
+    marginTop: 8,
     padding: 12,
     alignItems: 'center',
   },
