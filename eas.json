@@ -17,7 +17,8 @@
       "distribution": "internal",
       "env": {
         "EXPO_NO_CACHE": "1",
-        "EXPO_IMAGE_UTILS_NO_CACHE": "1"
+        "EXPO_IMAGE_UTILS_NO_CACHE": "1",
+        "EXPO_CACHE_DIR": "/tmp/expo-cache"
       },
       "android": {
         "buildType": "apk",
@@ -30,7 +31,8 @@
     "production": {
       "env": {
         "EXPO_NO_CACHE": "1",
-        "EXPO_IMAGE_UTILS_NO_CACHE": "1"
+        "EXPO_IMAGE_UTILS_NO_CACHE": "1",
+        "EXPO_CACHE_DIR": "/tmp/expo-cache"
       },
       "android": {
         "buildType": "app-bundle",

@@ -19,6 +19,7 @@ const CollaboratorsModal = ({
   onClose, 
   projectId, 
   collaborators = [], 
+  projectFields = {},
   onCollaboratorsUpdate,
   isConsultant = false 
 }) => {
@@ -28,6 +29,29 @@ const CollaboratorsModal = ({
   const [newCollaboratorEmail, setNewCollaboratorEmail] = useState('');
   const [existingCollaborators, setExistingCollaborators] = useState([]);
   const [showExisting, setShowExisting] = useState(false);
+
+  // Helper function to determine collaborator role
+  const getCollaboratorRole = (collaboratorName) => {
+    if (!collaboratorName || !projectFields) return 'Client';
+    
+    const name = String(collaboratorName).trim();
+    const assignedConsultant = String(projectFields['Assigned Consultant'] || '').trim();
+    const supervisingConsultant = String(projectFields['Supervising Consultant'] || '').trim();
+    const projectName = String(projectFields['Project Name'] || '').trim();
+    
+    // Check if matches Assigned Consultant or Supervising Consultant
+    if (name === assignedConsultant || name === supervisingConsultant) {
+      return 'Consultant';
+    }
+    
+    // Check if matches Project Name
+    if (name === projectName) {
+      return 'Client';
+    }
+    
+    // Default to Client
+    return 'Client';
+  };
 
   // Fetch existing collaborators from the system
   const fetchExistingCollaborators = useCallback(async () => {
@@ -226,22 +250,25 @@ const CollaboratorsModal = ({
             <Text style={styles.sectionTitle}>Current Collaborators</Text>
             {collaborators.length > 0 ? (
               <View style={styles.collaboratorsList}>
-                {collaborators.map((name, index) => (
-                  <View key={index} style={styles.collaboratorItem}>
-                    <View style={styles.collaboratorInfo}>
-                      <Ionicons name="person" size={20} color="#6B7280" />
-                      <Text style={styles.collaboratorName}>{name}</Text>
+                {collaborators.map((name, index) => {
+                  const role = getCollaboratorRole(name);
+                  return (
+                    <View key={index} style={styles.collaboratorItem}>
+                      <View style={styles.collaboratorInfo}>
+                        <Ionicons name="person" size={20} color="#6B7280" />
+                        <Text style={styles.collaboratorName}>{name} ({role})</Text>
+                      </View>
+                      {isConsultant && (
+                        <TouchableOpacity
+                          onPress={() => handleRemoveCollaborator(name)}
+                          style={styles.removeButton}
+                        >
+                          <Ionicons name="trash-outline" size={18} color="#EF4444" />
+                        </TouchableOpacity>
+                      )}
                     </View>
-                    {isConsultant && (
-                      <TouchableOpacity
-                        onPress={() => handleRemoveCollaborator(name)}
-                        style={styles.removeButton}
-                      >
-                        <Ionicons name="trash-outline" size={18} color="#EF4444" />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                ))}
+                  );
+                })}
               </View>
             ) : (
               <View style={styles.emptyState}>

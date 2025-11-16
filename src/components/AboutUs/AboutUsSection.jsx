@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderBottomWidth: 1,
         borderBottomColor: '#f1f5f9',
+        backgroundColor: '#e0f2fe', // Light blue background for the heading
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
     },
     sectionTitle: {
         fontSize: 18,

@@ -12,7 +12,6 @@ export default {
       "expo-font",
       "./plugins/withCustomAndroidIcons.js"
     ],
-    icon: "./assets/512x512_icon.png",
     userInterfaceStyle: "light",
     newArchEnabled: true,
     ios: {
@@ -23,7 +22,6 @@ export default {
     android: {
       package: "com.waivergroup.waiveronthego",
       versionCode: 1,
-      icon: "./assets/512x512_icon.png",
       permissions: [],
       edgeToEdgeEnabled: true,
       playStoreUrl: "https://play.google.com/store/apps/details?id=com.waivergroup.waiveronthego"

@@ -1,0 +1,14 @@
+<en-US>
+Welcome to Waiver On-the-go v1.0.0 - Your mobile project management solution.
+
+New Features:
+• Project Management - View and manage projects on the go
+• Task Organization - Organize tasks with custom groups and drag-and-drop
+• Real-time Chat - Built-in project messaging
+• Project Templates - Quick setup with standardized workflows
+• Secure Authentication - Role-based access for consultants and clients
+• Modern Interface - Intuitive navigation optimized for mobile
+
+Stay connected with your team and manage projects from anywhere.
+</en-US>
+

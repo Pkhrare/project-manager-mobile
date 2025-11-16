@@ -68,6 +68,8 @@ function AppContent() {
   const [showCollaboratorsModal, setShowCollaboratorsModal] = useState(false);
   const [showInternalNotesModal, setShowInternalNotesModal] = useState(false);
   const [activeProjectTab, setActiveProjectTab] = useState('active'); // 'active' or 'deactivated'
+  const [isProjectInfoCollapsed, setIsProjectInfoCollapsed] = useState(true); // Collapsed by default for clients
+  const [isFinancialInfoCollapsed, setIsFinancialInfoCollapsed] = useState(true); // Collapsed by default for clients
   
   // Chat-related state
   const [projectMessages, setProjectMessages] = useState([]);
@@ -297,6 +299,14 @@ function AppContent() {
     };
     loadData();
   }, [fetchIncompleteActions, fetchProjects]);
+
+  // Reset Project Information and Financial Information collapsed state when project changes
+  useEffect(() => {
+    if (selectedProject && userRole === 'client') {
+      setIsProjectInfoCollapsed(true); // Reset to collapsed when new project is selected
+      setIsFinancialInfoCollapsed(true); // Reset to collapsed when new project is selected
+    }
+  }, [selectedProject?.id, userRole]);
 
   // Pull to refresh handler
   const onRefresh = useCallback(async () => {
@@ -1577,6 +1587,29 @@ function AppContent() {
     );
   }
 
+  // Helper function to determine collaborator role
+  const getCollaboratorRole = (collaboratorName, projectFields) => {
+    if (!collaboratorName || !projectFields) return 'Client';
+    
+    const name = String(collaboratorName).trim();
+    const assignedConsultant = String(projectFields['Assigned Consultant'] || '').trim();
+    const supervisingConsultant = String(projectFields['Supervising Consultant'] || '').trim();
+    const projectName = String(projectFields['Project Name'] || '').trim();
+    
+    // Check if matches Assigned Consultant or Supervising Consultant
+    if (name === assignedConsultant || name === supervisingConsultant) {
+      return 'Consultant';
+    }
+    
+    // Check if matches Project Name
+    if (name === projectName) {
+      return 'Client';
+    }
+    
+    // Default to Client
+    return 'Client';
+  };
+
   // Show login screens if not authenticated (MOVED AFTER ALL HOOKS)
   if (!isAuthenticated) {
     return (
@@ -1956,8 +1989,28 @@ function AppContent() {
             {/* Project Info Card */}
             <View style={styles.detailsCard}>
               {/* Card Header with Edit Button */}
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Project Information</Text>
+              <TouchableOpacity 
+                style={styles.cardHeader}
+                onPress={() => {
+                  // Only make collapsible for clients
+                  if (userRole === 'client') {
+                    setIsProjectInfoCollapsed(!isProjectInfoCollapsed);
+                  }
+                }}
+                activeOpacity={userRole === 'client' ? 0.7 : 1}
+                disabled={userRole !== 'client'}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                  <Text style={styles.cardTitle}>Project Information</Text>
+                  {userRole === 'client' && (
+                    <Ionicons 
+                      name={isProjectInfoCollapsed ? "chevron-down" : "chevron-up"} 
+                      size={20} 
+                      color="#2C2C2C" 
+                      style={{ marginLeft: 8 }}
+                    />
+                  )}
+                </View>
                 {userRole !== 'client' && !isProjectEditing && (
                   <TouchableOpacity
                     accessibilityLabel="Edit section"
@@ -1983,9 +2036,10 @@ function AppContent() {
                     </TouchableOpacity>
                   </View>
                 )}
-              </View>
+              </TouchableOpacity>
               
-              {/* Card Content */}
+              {/* Card Content - Only show if not collapsed (or if not a client) */}
+              {(!isProjectInfoCollapsed || userRole !== 'client') && (
               <View style={styles.cardContent}>
                 <View style={styles.detailsRow}>
                 <Text style={styles.detailsLabel}>Project ID</Text>
@@ -2070,6 +2124,7 @@ function AppContent() {
                 )}
               </View>
               </View>
+              )}
             </View>
 
             {/* Quick Help Section - Only for Clients */}
@@ -2141,9 +2196,31 @@ function AppContent() {
               (fields['Paid'] !== undefined && fields['Paid'] !== null && fields['Paid'] !== '') || 
               (fields['Balance'] !== undefined && fields['Balance'] !== null && fields['Balance'] !== '')) && (
               <View style={styles.detailsCard}>
-                <View style={styles.cardHeader}>
-                  <Text style={styles.cardTitle}>Financial Information</Text>
-                </View>
+                <TouchableOpacity 
+                  style={styles.cardHeader}
+                  onPress={() => {
+                    // Only make collapsible for clients
+                    if (userRole === 'client') {
+                      setIsFinancialInfoCollapsed(!isFinancialInfoCollapsed);
+                    }
+                  }}
+                  activeOpacity={userRole === 'client' ? 0.7 : 1}
+                  disabled={userRole !== 'client'}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                    <Text style={styles.cardTitle}>Financial Information</Text>
+                    {userRole === 'client' && (
+                      <Ionicons 
+                        name={isFinancialInfoCollapsed ? "chevron-down" : "chevron-up"} 
+                        size={20} 
+                        color="#2C2C2C" 
+                        style={{ marginLeft: 8 }}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                {/* Card Content - Only show if not collapsed (or if not a client) */}
+                {(!isFinancialInfoCollapsed || userRole !== 'client') && (
                 <View style={styles.cardContent}>
                   {(fields['Full Cost'] !== undefined && fields['Full Cost'] !== null && fields['Full Cost'] !== '') ? (
                     <View style={styles.detailsRow}>
@@ -2164,6 +2241,7 @@ function AppContent() {
                     </View>
                   ) : null}
                 </View>
+                )}
               </View>
             )}
 
@@ -2269,14 +2347,17 @@ function AppContent() {
               <View style={styles.cardContent}>
                 {Array.isArray(selectedProject?.fields?.['collaborator_name']) && selectedProject.fields['collaborator_name'].length > 0 ? (
                   <View style={styles.collaboratorsPreview}>
-                    {selectedProject.fields['collaborator_name'].slice(0, 3).map((name, index) => (
-                      <View key={index} style={styles.collaboratorPreviewItem}>
-                        <Ionicons name="person" size={16} color="#6B7280" />
-                        <Text style={styles.collaboratorPreviewName} numberOfLines={1}>
-                          {String(name || 'Unknown')}
-                        </Text>
-                      </View>
-                    ))}
+                    {selectedProject.fields['collaborator_name'].slice(0, 3).map((name, index) => {
+                      const role = getCollaboratorRole(name, selectedProject?.fields);
+                      return (
+                        <View key={index} style={styles.collaboratorPreviewItem}>
+                          <Ionicons name="person" size={16} color="#6B7280" />
+                          <Text style={styles.collaboratorPreviewName} numberOfLines={1}>
+                            {String(name || 'Unknown')} ({role})
+                          </Text>
+                        </View>
+                      );
+                    })}
                     {selectedProject.fields['collaborator_name'].length > 3 ? (
                       <Text style={styles.moreCollaboratorsText}>
                         +{selectedProject.fields['collaborator_name'].length - 3} more
@@ -2319,10 +2400,26 @@ function AppContent() {
             {/* Tasks Section */}
             <View style={styles.detailsCard}>
               <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>📋 Tasks</Text>
+                <View style={{ flex: 1, marginRight: 12 }}>
+                  <Text style={[styles.cardTitle, userRole === 'client' && styles.cardTitleLong]}>
+                    {userRole === 'client' ? '📋 TASKS YOU MUST COMPLETE TO START PROJECT.' : '📋 Tasks'}
+                  </Text>
+                </View>
                 <View style={styles.tasksCount}>
                   <Text style={styles.tasksCountText}>
-                    {String((taskData.groups?.reduce((sum, g) => sum + (g.tasks?.length || 0), 0) || 0) + (taskData.ungroupedTasks?.length || 0))}
+                    {String((() => {
+                      // Calculate task count, excluding "GETTING STARTED" group for clients
+                      const visibleGroups = userRole === 'client' 
+                        ? (taskData.groups || []).filter((g) => {
+                            const groupName = String(g.name || '').toUpperCase().trim();
+                            return groupName !== 'GETTING STARTED';
+                          })
+                        : (taskData.groups || []);
+                      
+                      const groupTasksCount = visibleGroups.reduce((sum, g) => sum + (g.tasks?.length || 0), 0);
+                      const ungroupedTasksCount = (taskData.ungroupedTasks || []).length;
+                      return groupTasksCount + ungroupedTasksCount;
+                    })())}
                   </Text>
                 </View>
                 {userRole === 'consultant' && (
@@ -2375,10 +2472,28 @@ function AppContent() {
                   <ActivityIndicator size={50} color="#D4AF37" />
                   <Text style={styles.loadingText}>Loading tasks...</Text>
                 </View>
-              ) : (taskData.groups.length > 0 || taskData.ungroupedTasks.length > 0) ? (
+              ) : (() => {
+                // Check if there are visible groups/tasks (excluding "GETTING STARTED" for clients)
+                const visibleGroups = userRole === 'client' 
+                  ? (taskData.groups || []).filter((g) => {
+                      const groupName = String(g.name || '').toUpperCase().trim();
+                      return groupName !== 'GETTING STARTED';
+                    })
+                  : (taskData.groups || []);
+                return visibleGroups.length > 0 || (taskData.ungroupedTasks || []).length > 0;
+              })() ? (
                 <View style={styles.tasksList}>
                   {/* Render task groups */}
-                  {taskData.groups.map((group) => {
+                  {taskData.groups
+                    .filter((group) => {
+                      // Hide "GETTING STARTED" group from clients
+                      if (userRole === 'client') {
+                        const groupName = String(group.name || '').toUpperCase().trim();
+                        return groupName !== 'GETTING STARTED';
+                      }
+                      return true;
+                    })
+                    .map((group) => {
                     const isCollapsed = collapsedGroups.has(group.id);
                     return (
                       <View key={group.id} style={styles.taskGroup}>
@@ -2590,11 +2705,15 @@ function AppContent() {
               activeOpacity={0.7}
             >
               <View style={styles.cardHeader}>
-                <View style={styles.cardTitleContainer}>
+                <View style={[styles.cardTitleContainer, { flex: 1, marginRight: 12 }]}>
                   <Ionicons name="calendar" size={20} color="#6B7280" style={styles.cardIcon} />
-                  <Text style={styles.cardTitle}>📅 Activities</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.cardTitle, userRole === 'client' && styles.cardTitleLong]}>
+                      {userRole === 'client' ? 'ACTIVITIES THAT YOUR CONSULTANT WILL COMPLETE FOR THIS PROJECT.' : '📅 Activities'}
+                    </Text>
+                  </View>
                 </View>
-                <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
+                <Ionicons name="chevron-forward" size={20} color="#9CA3AF" style={{ alignSelf: 'flex-start', marginTop: 2 }} />
               </View>
               <View style={styles.cardContent}>
                 <Text style={styles.activitiesPreviewText}>
@@ -2611,7 +2730,7 @@ function AppContent() {
             {/* Actions Section */}
             <View style={styles.detailsCard}>
               <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>⚡️ Actions</Text>
+                <Text style={styles.cardTitle}>{userRole === 'client' ? '⚡️ACTIONS & STATUS OF PROJECT.' : '⚡️ACTIONS' }</Text>
                 {!isAddingAction && userRole !== 'client' && (
                   <TouchableOpacity 
                     style={styles.addButton}
@@ -3026,6 +3145,7 @@ function AppContent() {
               onClose={() => setShowCollaboratorsModal(false)}
               projectId={selectedProject?.id}
               collaborators={selectedProject?.fields?.['collaborator_name'] || []}
+              projectFields={selectedProject?.fields || {}}
               onCollaboratorsUpdate={async () => {
                 // Refresh the project data to get the updated computed collaborator_name field
                 try {
@@ -3991,7 +4111,7 @@ const styles = StyleSheet.create({
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     padding: 16,
     paddingBottom: 12,
     borderBottomWidth: 1,
@@ -4085,6 +4205,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: '#2C2C2C',
+  },
+  cardTitleLong: {
+    fontSize: 16,
+    lineHeight: 22,
   },
   cardTitleContainer: {
     flexDirection: 'row',
@@ -4185,6 +4309,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
+    alignSelf: 'flex-start',
+    marginTop: 2,
   },
   tasksCountText: {
     color: 'white',
