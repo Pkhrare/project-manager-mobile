@@ -4,7 +4,7 @@ export default {
   expo: {
     name: "Waiver On-the-go",
     slug: "project-manager-mobile",
-    version: "1.0.0",
+    version: "1.0.1",
     orientation: "portrait",
     scheme: "projectmanager",
     platforms: ["ios", "android"],
