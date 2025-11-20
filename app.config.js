@@ -7,35 +7,25 @@ export default {
     version: "1.0.2",
     orientation: "portrait",
     scheme: "projectmanager",
+    icon: "./assets/512x512_icon.png",
+    platforms: ["ios", "android"],
     plugins: [
-      "expo-web-browser"
+      "expo-font",
+      "./plugins/withCustomAndroidIcons.js"
     ],
-    icon: "./assets/1024x1024_icon.png",
     userInterfaceStyle: "light",
     newArchEnabled: true,
-    splash: {
-      image: "./assets/1024x1024_icon.png",
-      resizeMode: "contain",
-      backgroundColor: "#ffffff"
-    },
     ios: {
       bundleIdentifier: "com.waivergroup.waiveronthego",
       buildNumber: "3",
-      supportsTablet: true,
-      icon: "./assets/1024x1024_icon.png"
+      supportsTablet: true
     },
     android: {
       package: "com.waivergroup.waiveronthego",
       versionCode: 3,
-      icon: "./assets/1024x1024_icon.png",
-      adaptiveIcon: {
-        foregroundImage: "./assets/1024x1024_icon.png",
-        backgroundColor: "#FFFFFF"
-      },
-      edgeToEdgeEnabled: true
-    },
-    web: {
-      favicon: "./assets/favicon.png"
+      permissions: [],
+      edgeToEdgeEnabled: true,
+      playStoreUrl: "https://play.google.com/store/apps/details?id=com.waivergroup.waiveronthego"
     },
     // Extra configuration for environment variables
     extra: {
