@@ -10,11 +10,11 @@ export default {
     plugins: [
       "expo-web-browser"
     ],
-    icon: "./assets/512x512_icon.png",
+    icon: "./assets/1024x1024_icon.png",
     userInterfaceStyle: "light",
     newArchEnabled: true,
     splash: {
-      image: "./assets/512x512_icon.png",
+      image: "./assets/1024x1024_icon.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff"
     },
@@ -22,14 +22,14 @@ export default {
       bundleIdentifier: "com.waivergroup.waiveronthego",
       buildNumber: "3",
       supportsTablet: true,
-      icon: "./assets/expo_icon.png"
+      icon: "./assets/1024x1024_icon.png"
     },
     android: {
       package: "com.waivergroup.waiveronthego",
       versionCode: 3,
-      icon: "./assets/512x512_icon.png",
+      icon: "./assets/1024x1024_icon.png",
       adaptiveIcon: {
-        foregroundImage: "./assets/512x512_icon.png",
+        foregroundImage: "./assets/1024x1024_icon.png",
         backgroundColor: "#FFFFFF"
       },
       edgeToEdgeEnabled: true
