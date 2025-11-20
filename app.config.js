@@ -4,9 +4,10 @@ export default {
   expo: {
     name: "Waiver On-the-go",
     slug: "project-manager-mobile",
-    version: "1.0.2",
+    version: "1.0.3",
     orientation: "portrait",
     scheme: "projectmanager",
+    icon: "./assets/512x512_icon.png",
     platforms: ["ios", "android"],
     plugins: [
       "expo-font",
@@ -16,12 +17,12 @@ export default {
     newArchEnabled: true,
     ios: {
       bundleIdentifier: "com.waivergroup.waiveronthego",
-      buildNumber: "3",
+      buildNumber: "4",
       supportsTablet: true
     },
     android: {
       package: "com.waivergroup.waiveronthego",
-      versionCode: 3,
+      versionCode: 4,
       permissions: [],
       edgeToEdgeEnabled: true,
       playStoreUrl: "https://play.google.com/store/apps/details?id=com.waivergroup.waiveronthego"
@@ -30,8 +31,9 @@ export default {
     extra: {
       // EAS project ID
       eas: {
-        projectId: "1081491a-3920-4c49-92dc-a5505c08a2d6"
+        projectId: "b2efae6f-d8d3-47c6-b8d4-2384830305f1"
       },
+
       // Read from EAS environment variables (set via: eas env:create --name BEARER_TOKEN --value "token")
       // This is marked as sensitive and won't appear in build logs
       bearerToken: process.env.BEARER_TOKEN || '',
