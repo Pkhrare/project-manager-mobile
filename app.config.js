@@ -4,28 +4,38 @@ export default {
   expo: {
     name: "Waiver On-the-go",
     slug: "project-manager-mobile",
-    version: "1.0.3",
+    version: "1.0.2",
     orientation: "portrait",
     scheme: "projectmanager",
-    icon: "./assets/512x512_icon.png",
-    platforms: ["ios", "android"],
     plugins: [
-      "expo-font",
-      "./plugins/withCustomAndroidIcons.js"
+      "expo-web-browser"
     ],
+    icon: "./assets/512x512_icon.png",
     userInterfaceStyle: "light",
     newArchEnabled: true,
+    splash: {
+      image: "./assets/512x512_icon.png",
+      resizeMode: "contain",
+      backgroundColor: "#ffffff"
+    },
     ios: {
       bundleIdentifier: "com.waivergroup.waiveronthego",
-      buildNumber: "4",
-      supportsTablet: true
+      buildNumber: "3",
+      supportsTablet: true,
+      icon: "./assets/expo_icon.png"
     },
     android: {
       package: "com.waivergroup.waiveronthego",
-      versionCode: 4,
-      permissions: [],
-      edgeToEdgeEnabled: true,
-      playStoreUrl: "https://play.google.com/store/apps/details?id=com.waivergroup.waiveronthego"
+      versionCode: 3,
+      icon: "./assets/512x512_icon.png",
+      adaptiveIcon: {
+        foregroundImage: "./assets/512x512_icon.png",
+        backgroundColor: "#FFFFFF"
+      },
+      edgeToEdgeEnabled: true
+    },
+    web: {
+      favicon: "./assets/favicon.png"
     },
     // Extra configuration for environment variables
     extra: {
@@ -33,7 +43,6 @@ export default {
       eas: {
         projectId: "b2efae6f-d8d3-47c6-b8d4-2384830305f1"
       },
-
       // Read from EAS environment variables (set via: eas env:create --name BEARER_TOKEN --value "token")
       // This is marked as sensitive and won't appear in build logs
       bearerToken: process.env.BEARER_TOKEN || '',
@@ -50,4 +59,6 @@ export default {
     }
   }
 };
+
+
 
