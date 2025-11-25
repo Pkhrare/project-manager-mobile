@@ -17,12 +17,12 @@ export default {
     newArchEnabled: true,
     ios: {
       bundleIdentifier: "com.waivergroup.waiveronthego",
-      buildNumber: "3",
+      buildNumber: "4",
       supportsTablet: true
     },
     android: {
       package: "com.waivergroup.waiveronthego",
-      versionCode: 3,
+      versionCode: 4,
       permissions: [],
       edgeToEdgeEnabled: true,
       playStoreUrl: "https://play.google.com/store/apps/details?id=com.waivergroup.waiveronthego"
