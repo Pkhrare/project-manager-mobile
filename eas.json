@@ -39,7 +39,8 @@
         "image": "latest"
       },
       "ios": {
-        "simulator": false
+        "simulator": false,
+        "buildConfiguration": "Release"
       }
     }
   },
