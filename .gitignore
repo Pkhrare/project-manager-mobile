@@ -38,7 +38,7 @@ yarn-error.*
 *.tsbuildinfo
 
 # generated native folders
-/ios
+# /ios
 # /android
 
 ANDROID_BUILD_GUIDE.md
