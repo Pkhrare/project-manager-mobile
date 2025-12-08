@@ -40,7 +40,8 @@
       },
       "ios": {
         "simulator": false,
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "image": "latest"
       }
     }
   },
