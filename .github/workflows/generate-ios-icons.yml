@@ -1,0 +1,70 @@
+name: Generate iOS Icons
+
+on:
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'app.config.js'
+      - 'assets/**'
+      - '.github/workflows/generate-ios-icons.yml'
+
+jobs:
+  generate-ios:
+    runs-on: macos-latest
+    permissions:
+      contents: write  # Required to push commits
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate iOS project with icons
+        run: |
+          npx expo prebuild --platform ios --clean
+          echo "iOS project generated successfully"
+
+      - name: Verify icons were generated
+        run: |
+          # Find the iOS app folder (name may vary)
+          IOS_APP_FOLDER=$(find ios -type d -name "*.xcassets" -path "*/Images.xcassets" | head -1 | xargs dirname | xargs dirname)
+          if [ -d "$IOS_APP_FOLDER/Images.xcassets/AppIcon.appiconset" ]; then
+            echo "✅ Icons directory exists at: $IOS_APP_FOLDER/Images.xcassets/AppIcon.appiconset"
+            ls -la "$IOS_APP_FOLDER/Images.xcassets/AppIcon.appiconset/"
+          else
+            echo "❌ Icons directory not found"
+            echo "iOS folder structure:"
+            find ios -type d | head -20
+            exit 1
+          fi
+
+      - name: Commit and push iOS folder
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Check if there are changes to commit
+          if [ -n "$(git status --porcelain ios)" ]; then
+            git add ios/
+            git commit -m "chore: generate iOS project with custom icons [skip ci]"
+            git push
+            echo "✅ iOS folder committed and pushed"
+          else
+            echo "ℹ️ No changes to iOS folder"
+          fi
+
