@@ -58,4 +58,3 @@ target 'WaiverOnthego' do
     )
   end
 end
-
