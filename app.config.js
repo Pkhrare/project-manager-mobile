@@ -4,7 +4,7 @@ export default {
   expo: {
     name: "Waiver On-the-go",
     slug: "project-manager-mobile",
-    version: "1.0.3",
+    version: "1.0.4",
     orientation: "portrait",
     scheme: "projectmanager",
     platforms: ["ios", "android"],
@@ -17,7 +17,7 @@ export default {
     newArchEnabled: true,
     ios: {
       bundleIdentifier: "com.waivergroup.waiveronthego",
-      buildNumber: "5",
+      buildNumber: "6",
       supportsTablet: true
     },
     android: {
