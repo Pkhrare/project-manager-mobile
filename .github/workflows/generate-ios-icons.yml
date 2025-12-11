@@ -38,6 +38,12 @@ jobs:
         run: |
           npx expo prebuild --platform ios --clean
           echo "iOS project generated successfully"
+      
+      - name: Fix .xcode.env file (remove empty lines)
+        run: |
+          # Remove empty lines from .xcode.env to prevent build errors
+          sed -i '' '/^$/d' ios/.xcode.env || sed -i '/^$/d' ios/.xcode.env
+          echo "✅ Fixed .xcode.env file"
 
       - name: Verify icons were generated
         run: |
