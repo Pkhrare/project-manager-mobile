@@ -7,7 +7,7 @@ export default {
     version: "1.0.4",
     orientation: "portrait",
     scheme: "projectmanager",
-    icon: "./assets/1024x1024.png",
+    icon: "./assets/1024x1024_icon.png",
     platforms: ["ios", "android"],
     plugins: [
       "expo-font",
